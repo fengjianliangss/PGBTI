@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PGBTI - Pet Groomer Personality Test</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--p:#FF8A80;--s:#80CBC4;--a:#FFD54F;--bg:#FFF8F0;--tx:#2D3436;--card:#fff;--r:16px}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}
+.ls{position:fixed;top:14px;right:16px;z-index:999;display:flex;gap:3px;background:rgba(255,255,255,.92);border-radius:18px;padding:3px;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.lb{border:none;background:0 0;padding:5px 13px;border-radius:14px;cursor:pointer;font-size:13px;font-weight:700;transition:.2s}
+.lb.on{background:var(--p);color:#fff}
+.pg{display:none;max-width:680px;margin:0 auto;padding:20px}
+.pg.on{display:block}
+.hero{text-align:center;padding:50px 16px 30px}
+.hero h1{font-size:28px;margin-bottom:10px;line-height:1.4}
+.hero .sub{font-size:16px;color:#636e72;margin-bottom:28px}
+.sbtn{display:inline-block;background:var(--p);color:#fff;border:0;padding:14px 44px;font-size:17px;font-weight:700;border-radius:28px;cursor:pointer}
+.icard{background:var(--card);border-radius:var(--r);padding:24px;margin:0 16px 36px;box-shadow:0 4px 18px rgba(0,0,0,.07);line-height:1.8;font-size:14px}
+.icard h3{margin-bottom:10px;font-size:17px}
+.qh{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid #eee;margin-bottom:20px}
+.qh .bk{background:0 0;border:0;font-size:13px;cursor:pointer;color:var(--p);font-weight:700}
+.pb{width:100%;height:5px;background:#eee;border-radius:3px;margin-bottom:24px;overflow:hidden}
+.pf{height:100%;background:linear-gradient(90deg,var(--p),var(--a));border-radius:3px;transition:width .3s}
+.qb{text-align:center;padding:16px 0}
+.qb .qn{font-size:13px;color:#636e72;margin-bottom:10px}
+.qb .qt{font-size:18px;font-weight:600;line-height:1.5;margin-bottom:24px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.ob{background:var(--card);border:2px solid #eee;border-radius:14px;padding:14px 16px;font-size:14px;cursor:pointer;text-align:left;transition:.15s;line-height:1.5}
+.ob:hover{border-color:var(--p);background:rgba(255,138,128,.04)}
+.ob.sel{border-color:var(--p);background:rgba(255,138,128,.1);font-weight:600}
+.nb{display:flex;gap:10px;justify-content:center;margin-top:24px}
+.nb button{padding:10px 24px;border-radius:22px;font-size:14px;cursor:pointer;font-weight:600;border:0}
+.nb .pv{background:#eee;color:var(--tx)}
+.nb .nx{background:var(--p);color:#fff}
+.nb .nx:disabled{opacity:.35;cursor:default}
+.rp{text-align:center;padding:36px 16px}
+.rp .tc{font-size:20px;font-weight:800;letter-spacing:2px;margin-bottom:2px}
+.rp .tn{font-size:24px;font-weight:700;margin-bottom:3px}
+.rp .tt{font-size:14px;color:#636e72;margin-bottom:16px}
+.rp .mt{font-size:50px;font-weight:800;color:var(--p);margin:6px 0}
+.rp .ds{text-align:left;background:var(--card);border-radius:14px;padding:22px;box-shadow:0 4px 18px rgba(0,0,0,.07);line-height:1.7;font-size:14px;margin-bottom:20px}
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:7px;text-align:left;margin:20px 0}
+.di{background:var(--card);border-radius:10px;padding:10px 14px;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+.di .dl{font-size:11px;color:#636e72;margin-bottom:3px}
+.di .db{height:5px;background:#eee;border-radius:3px;overflow:hidden}
+.di .df{height:100%;border-radius:3px}
+.di .dv{font-size:12px;font-weight:700;margin-top:2px;text-align:right}
+.dcl{font-size:11px;color:#b2bec3;margin-top:28px;line-height:1.6}
+.rbtn{display:inline-block;margin-top:16px;padding:10px 28px;border:2px solid var(--p);background:0 0;border-radius:22px;font-size:14px;cursor:pointer;font-weight:600;color:var(--p);transition:.15s}
+.rbtn:hover{background:var(--p);color:#fff}
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:1000;align-items:center;justify-content:center}
+.mo.sh{display:flex}
+.md{background:#fff;border-radius:18px;padding:28px;max-width:380px;width:90%;text-align:center}
+.md h2{margin-bottom:10px}
+.md p{color:#636e72;margin-bottom:18px;line-height:1.5;font-size:14px}
+.mbs{display:flex;gap:8px;justify-content:center}
+.mbs button{padding:9px 22px;border-radius:18px;font-size:13px;cursor:pointer;font-weight:600;border:0}
+.mbs .cf{background:var(--p);color:#fff}
+.mbs .cc{background:#eee;color:var(--tx)}
+
+/* screenshot card */
+.sc-card{background:linear-gradient(135deg,#FFF8F0 0%,#FFE8E0 50%,#E0F7FA 100%);border-radius:20px;padding:32px 24px;margin:24px 0;position:relative;overflow:hidden}
+.sc-card::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,138,128,.15)}
+.sc-card::after{content:'';position:absolute;bottom:-20px;left:-20px;width:80px;height:80px;border-radius:50%;background:rgba(128,203,196,.15)}
+.sc-logo{font-size:14px;font-weight:800;color:var(--p);letter-spacing:3px;margin-bottom:16px;text-align:left;position:relative;z-index:1}
+.sc-type{text-align:center;position:relative;z-index:1}
+.sc-type .sc-code{font-size:36px;font-weight:900;color:var(--p);letter-spacing:4px;margin-bottom:4px}
+.sc-type .sc-name{font-size:22px;font-weight:700;margin-bottom:4px}
+.sc-type .sc-tag{font-size:14px;color:#636e72;margin-bottom:8px;font-style:italic}
+.sc-type .sc-match{font-size:44px;font-weight:900;color:var(--p)}
+.sc-type .sc-match-label{font-size:12px;color:#636e72;margin-top:-4px}
+.sc-desc{font-size:13px;line-height:1.7;text-align:left;margin:16px 0;position:relative;z-index:1;color:#555}
+.sc-dims{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;position:relative;z-index:1;margin:12px 0}
+.sc-dim{font-size:10px;text-align:center;padding:4px 2px}
+.sc-dim .sc-dl{color:#636e72;margin-bottom:2px}
+.sc-dim .sc-dv{font-weight:800;color:var(--tx)}
+.sc-footer{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:12px;border-top:1px dashed rgba(0,0,0,.1);position:relative;z-index:1}
+.sc-footer .sc-usr{font-size:14px;font-weight:700;color:var(--tx);text-align:left}
+.sc-footer .sc-usr span{color:var(--p)}
+.sc-footer .sc-qr{font-size:10px;color:#b2bec3;text-align:right;line-height:1.4}
+
+/* name input & share buttons */
+.name-row{display:flex;gap:8px;align-items:center;justify-content:center;margin:16px 0}
+.name-row input{border:2px solid #eee;border-radius:12px;padding:10px 14px;font-size:14px;width:200px;outline:none;transition:.15s}
+.name-row input:focus{border-color:var(--p)}
+.share-row{display:flex;gap:10px;justify-content:center;margin:12px 0}
+.share-row button{padding:10px 22px;border-radius:22px;font-size:13px;cursor:pointer;font-weight:600;border:0;transition:.15s}
+.sh-save{background:var(--p);color:#fff}
+.sh-save:hover{background:#e57373}
+.sh-copy{background:var(--s);color:#fff}
+.sh-copy:hover{background:#4db6ac}
+
+@media(max-width:500px){.hero h1{font-size:22px}.qb .qt{font-size:15px}.dg{grid-template-columns:1fr}.ob{font-size:13px;padding:12px 13px}.sc-dims{grid-template-columns:1fr 1fr}.sc-card{padding:24px 16px}}
+</style>
+</head>
+<body>
+
+<div class="ls">
+<button class="lb on" id="lbZh" onclick="setLang('zh')">中文</button>
+<button class="lb" id="lbEn" onclick="setLang('en')">EN</button>
+</div>
+
+<div class="pg on" id="home">
+<div class="hero">
+<h1 id="h1"></h1>
+<div class="sub" id="hsub"></div>
+<button class="sbtn" onclick="startQuiz()" id="hbtn"></button>
+</div>
+<div class="icard">
+<h3 id="ititle"></h3>
+<p id="itxt"></p>
+</div>
+</div>
+
+<div class="pg" id="quiz">
+<div class="qh">
+<button class="bk" onclick="goHome()" id="qbk"></button>
+<span id="qct"></span>
+</div>
+<div class="pb"><div class="pf" id="pf"></div></div>
+<div class="qb">
+<div class="qn" id="qnum"></div>
+<div class="qt" id="qtxt"></div>
+<div class="opts" id="opts"></div>
+</div>
+<div class="nb">
+<button class="pv" onclick="prevQ()" id="bpv"></button>
+<button class="nx" onclick="nextQ()" id="bnx" disabled></button>
+</div>
+</div>
+
+<div class="pg" id="result">
+<div class="rp">
+<div style="font-size:13px;color:#636e72" id="rlbl"></div>
+<div class="tc" id="rcode"></div>
+<div class="tn" id="rname"></div>
+<div class="tt" id="rtag"></div>
+<div class="mt" id="rmatch"></div>
+<div class="ds" id="rdesc"></div>
+<h3 style="margin-bottom:10px" id="rdimh"></h3>
+<div class="dg" id="dgrid"></div>
+<div class="dcl" id="dcl"></div>
+
+<!-- name input -->
+<div class="name-row">
+<input type="text" id="uname" maxlength="20" placeholder="">
+</div>
+
+<!-- screenshot card (hidden from page, used for capture) -->
+<div id="scard" class="sc-card" style="display:none"></div>
+
+<!-- share buttons -->
+<div class="share-row" id="sharRow">
+<button class="sh-save" id="shSave" onclick="saveImage()"></button>
+<button class="sh-copy" id="shCopy" onclick="copyImage()"></button>
+</div>
+
+<button class="rbtn" onclick="goHome()" id="rbtn"></button>
+</div>
+</div>
+
+<div class="mo" id="modal">
+<div class="md">
+<h2 id="mht"></h2>
+<p id="mpt"></p>
+<div class="mbs">
+<button class="cc" onclick="closeModal()" id="mbc"></button>
+<button class="cf" onclick="submitQuiz()" id="mbk"></button>
+</div>
+</div>
+</div>
+
+<script>
+var L='zh';
+var curResult=null;
+
+var Q=[
+{d:'pacing',z:'一只比熊进店，毛打结到梳子插进去就拔不出来。你的第一反应？',e:'A Bichon walks in with mats so bad your comb gets stuck. Your first move?',o:[
+{z:'先慢慢梳开，一边梳一边安抚它',e:'Gently comb it out while soothing the dog',s:1},
+{z:'局部打结的先喷开结液，再慢慢来',e:'Spray detangler on the mats, then work through slowly',s:2},
+{z:'打结严重的直接推掉，其余正常修剪',e:'Shave the badly matted areas, trim the rest normally',s:3},
+{z:'全推了，从头再来，省得受罪',e:'Shave it all off and start fresh',s:4}]},
+{d:'pacing',z:'今天排了7只约克夏，全是要精修的。你的节奏？',e:'7 Yorkies today, all fancy trims. Your pace?',o:[
+{z:'每只都不着急，做不完就加班',e:'Take my time on each one, stay late if needed',s:1},
+{z:'前几只稳一点，后面自然就快了',e:'Start steady, naturally speed up as I go',s:2},
+{z:'制定流水线，每个环节限时完成',e:'Set up an assembly line, time each step',s:3},
+{z:'全速开干，旋风模式启动',e:'Full speed, tornado mode from the start',s:4}]},
+{d:'perf',z:'修剪完一只拉姆泰迪，退后一步看效果，你觉得：',e:'You finish trimming a Lamb-cut Poodle, step back to assess:',o:[
+{z:'完美，每个弧度都到位',e:'Perfect. Every curve is on point.',s:1},
+{z:'整体不错，但腰线还能再收0.5毫米',e:'Overall good, but the waistline could be 0.5mm tighter',s:2},
+{z:'左脸比右脸稍圆了一点，必须修',e:'Left cheek slightly rounder than right, must fix',s:3},
+{z:'重新来吧，今天状态不对',e:'Start over. Not feeling it today.',s:4}]},
+{d:'focus',z:'剪西施犬面部时，隔壁同事放起了综艺，店里的狗开始一起叫。你：',e:'Trimming a Shih Tzu face. Coworker plays a show, dogs start howling. You:',o:[
+{z:'完全不受影响，我剪我的',e:'Totally unfazed, just keep trimming',s:1},
+{z:'有点烦但能忍，专注在手上',e:'A bit annoyed but can manage, focus on my hands',s:2},
+{z:'请同事调小音量，我需要相对安静',e:'Ask coworker to lower volume, need relative quiet',s:3},
+{z:'必须关掉，进入不了状态根本剪不了',e:'Must be turned off. Cannot work without focus.',s:4}]},
+{d:'soothe',z:'一只马尔济斯第一次来洗澡，吓得在浴缸里乱蹬。你怎么处理？',e:'A Maltese first bath, flailing in the tub. What do you do?',o:[
+{z:'抱着它慢慢适应水温，轻声说话，花多久都行',e:'Hold it, let it adjust, talk softly, take all the time needed',s:1},
+{z:'一手稳住它，一手继续洗，动作轻但不停',e:'One hand steadies it, other keeps washing, gentle but not stopping',s:2},
+{z:'快速洗完，越拖它越害怕',e:'Wash quickly, the longer it takes the more scared it gets',s:3},
+{z:'用浴巾裹住控制住，直接操作',e:'Wrap in towel to control, just get it done',s:4}]},
+{d:'soothe',z:'茶杯泰迪在你手上抖得像手机振动，你的判断是？',e:'A Teacup Poodle vibrating like a phone in your hands. Your assessment?',o:[
+{z:'它太紧张了，我先抱抱它',e:'Too nervous, let me hold it first',s:1},
+{z:'可能冷也可能怕，开暖风加轻声哄',e:'Could be cold or scared, warm air plus gentle coaxing',s:2},
+{z:'茶杯都这样，正常操作就行',e:'Teacups are always like this, just work normally',s:3},
+{z:'越哄越矫情，快速搞完放回去',e:'The more you coax the more dramatic, finish fast',s:4}]},
+{d:'empathy',z:'合作三年的老客户说那只比熊年纪大了，以后不用来了。你的反应？',e:'A client of 3 years says their senior Bichon will not come anymore. Your reaction?',o:[
+{z:'偷偷红了眼眶，回家还在想它',e:'Tear up secretly, still thinking about it at home',s:1},
+{z:'有点伤感，说一句要好好的',e:'A bit sad, say take good care of them',s:2},
+{z:'感慨一下，然后继续干活',e:'Briefly moved, then get back to work',s:3},
+{z:'这就是行业日常，习惯就好',e:'That is the industry, you get used to it',s:4}]},
+{d:'crisis',z:'修剪约克夏耳朵时，它突然甩头，剪刀擦到耳尖出了一点血。你：',e:'Trimming a Yorkie ears, it jerks, scissors nick the ear tip, a little blood. You:',o:[
+{z:'心里慌得不行，手都在抖',e:'Panicking inside, hands shaking',s:1},
+{z:'心跳加速但赶紧止血安抚',e:'Heart racing but quickly stop bleeding and soothe',s:2},
+{z:'冷静止血安抚，内心也慌但撑住',e:'Calmly stop bleeding and soothe, panicked inside but holding on',s:3},
+{z:'处变不惊，止血消毒继续，这就是工作',e:'Unfazed, stop bleeding, disinfect, move on. Just work.',s:4}]},
+{d:'comm',z:'客户拿着小红书照片说一模一样的，但照片是比熊，她带的是马尔济斯。你：',e:'Client shows a photo saying exactly this, but the photo is a Bichon, they brought a Maltese. You:',o:[
+{z:'好的我尽量！然后默默做能做的',e:'Sure I will try! Then quietly do what is possible',s:1},
+{z:'先夸好看，再委婉说品种不同效果不一样',e:'Compliment the look first, then gently explain the breed difference',s:2},
+{z:'直接说品种不同，我给你看马尔济斯能做的效果',e:'Directly say different breed, show what is possible for Maltese',s:3},
+{z:'不是一个品种，做不到，建议换造型',e:'Wrong breed, cannot do it. Suggest a different style.',s:4}]},
+{d:'comm',z:'客户全程站在旁边看你剪茶杯泰迪，还不停指指点点。你？',e:'Client watches your every move trimming their Teacup Poodle, keeps giving directions. You?',o:[
+{z:'微笑点头，按他说的来',e:'Smile and nod, do as they say',s:1},
+{z:'一边听一边解释我为什么这么剪',e:'Listen while explaining why I trim this way',s:2},
+{z:'温和地说让我专注操作，做完再看效果',e:'Gently say I need to focus, check the result after',s:3},
+{z:'礼貌但明确请他去等候区坐下',e:'Politely but firmly ask them to wait in the seating area',s:4}]},
+{d:'expect',z:'新客户想让西施犬剪出网红造型，但你知道这只毛质根本撑不住。你？',e:'New client wants an influencer style on their Shih Tzu, but the coat will not hold it. You?',o:[
+{z:'没问题交给我！尽力试试看',e:'No problem! Try my best',s:1},
+{z:'先试试，但提前说可能达不到图上效果',e:'Give it a try, but warn it may not match the photo',s:2},
+{z:'推荐几个更适合这只毛质的造型',e:'Recommend styles that suit this coat texture better',s:3},
+{z:'明确说做不到，建议换造型方向',e:'Clearly say it will not work, suggest a different direction',s:4}]},
+{d:'bound',z:'客户晚上11点发微信问狗的情况，还发了60秒语音。你？',e:'Client messages at 11pm about their dog, sends a 60-second voice note. You?',o:[
+{z:'看到了就回，万一狗有事呢',e:'Reply if I see it, what if something is wrong',s:1},
+{z:'回一句明天到店细说',e:'Reply let us talk tomorrow at the shop',s:2},
+{z:'已读不回，明天再说',e:'Read but do not reply, handle it tomorrow',s:3},
+{z:'根本不看，下班就是下班',e:'Do not even look, off the clock is off the clock',s:4}]},
+{d:'style',z:'一只比熊要造型，客户说你看着来。你内心想做什么？',e:'A Bichon needs styling, client says up to you. What do you secretly want to do?',o:[
+{z:'经典圆头，干干净净最耐看',e:'Classic round head, clean and timeless',s:1},
+{z:'稍微有点设计感的韩系造型',e:'Korean style with a bit of design flair',s:2},
+{z:'大裙摆加蘑菇头，越蓬越有灵魂',e:'Big skirt plus mushroom head, the fluffier the better',s:3},
+{z:'创新造型，试试最近学到的新剪法',e:'Creative cut, try that new technique I just learned',s:4}]},
+{d:'creativity',z:'店里来了宠物安全染毛色料，你第一反应？',e:'Pet-safe hair dye arrives at the shop. Your first reaction?',o:[
+{z:'没兴趣，自然色最好看',e:'Not interested, natural color is best',s:1},
+{z:'看看颜色，也许可以小面积试试',e:'Check the colors, maybe try a small area',s:2},
+{z:'想给下一只拉姆泰迪试试渐变尾巴',e:'Want to try an ombre tail on the next Lamb-cut Poodle',s:3},
+{z:'立刻构思全套染色方案，耳朵尾巴爪子都要染',e:'Immediately design a full dye plan, ears tail paws everything',s:4}]},
+{d:'creativity',z:'你刷到一个超酷的约克夏编发教程，但很复杂。你？',e:'You see an amazing Yorkie braiding tutorial, but it is complex. You?',o:[
+{z:'存了，大概率不会做',e:'Save it, probably will not try',s:1},
+{z:'看看就好，欣赏一下手艺',e:'Just watch and admire the skill',s:2},
+{z:'研究一下，改天有合适的约克夏试试',e:'Study it, try it when the right Yorkie comes in',s:3},
+{z:'明天就找只约克夏练手！必须拿下',e:'Finding a Yorkie to practice on tomorrow! Must master it',s:4}]},
+{d:'color',z:'给西施犬选配饰，你偏向？',e:'Choosing accessories for a Shih Tzu, you prefer:',o:[
+{z:'同色系蝴蝶结，低调和谐',e:'Matching-color bow, subtle and harmonious',s:1},
+{z:'浅色系发卡，清爽不抢眼',e:'Pastel clip, fresh and not overwhelming',s:2},
+{z:'撞色丝带，反差才有记忆点',e:'Contrasting ribbon, contrast makes it memorable',s:3},
+{z:'多色堆叠，越花越出片',e:'Layer multiple colors, the more the more photogenic',s:4}]},
+{d:'identity',z:'有人问你职业，你怎么介绍？',e:'Someone asks what you do. How do you introduce yourself?',o:[
+{z:'我在宠物店上班',e:'I work at a pet shop',s:1},
+{z:'我做宠物美容的',e:'I do pet grooming',s:2},
+{z:'我是宠物美容师',e:'I am a pet groomer',s:3},
+{z:'我是宠物造型艺术家',e:'I am a pet styling artist',s:4}]},
+{d:'recharge',z:'连续工作10天终于休息一天，你？',e:'After 10 straight work days, you finally get a day off. You?',o:[
+{z:'在家躺尸，不想任何和宠物有关的事',e:'Rot in bed, avoid anything pet-related',s:1},
+{z:'出去逛逛，完全放空',e:'Go out, completely zone out',s:2},
+{z:'休息了，但忍不住刷了宠物造型图',e:'Resting, but still end up scrolling grooming content',s:3},
+{z:'在研究新的比熊修剪手法，停不下来',e:'Researching new Bichon trimming, cannot stop',s:4}]},
+{d:'growth',z:'行业有个新认证考试，费用不低。你的想法？',e:'A new certification exam is available, expensive. Your thoughts?',o:[
+{z:'现在水平够用了，不考',e:'My current skills are enough, not taking it',s:1},
+{z:'看看再说，不一定现在就考',e:'Let me think about it, not necessarily right now',s:2},
+{z:'攒钱也要考，多个证多条路',e:'Save up and take it, more certs more opportunities',s:3},
+{z:'必须拿下，我就是冲着行业顶流去的',e:'Must get it, I am aiming for the top of this industry',s:4}]},
+{d:'growth',z:'三年后的你，你希望？',e:'Where do you see yourself in 3 years?',o:[
+{z:'稳定就好，日子过得去',e:'Stable is fine, comfortable life',s:1},
+{z:'技术再精进一点，收入再涨一点',e:'Improve my skills a bit, earn a bit more',s:2},
+{z:'成为店里技术最好的，或者去更高端的平台',e:'Become the best in the shop, or move to a premium platform',s:3},
+{z:'开自己的店，做自己的品牌',e:'Open my own shop, build my own brand',s:4}]}
+];
+
+var T={
+FLUFF:{c:'FLUFF',z:'蓬松大师',e:'Fluff Master',tz:'蓬松即正义',te:'Fluff is Justice',
+dz:'你剪毛慢但稳，每只出门都像一朵行走的云。客户满意度稳定，但排队也最长。你相信慢工出细活，宁可让下一只多等十分钟，也要让这一只蓬到极致。你的安全感来自每一根毛都到位，走线流畅对称是你最基本的执念。你不是不会快，是快了你会难受。',
+de:'You trim slowly but steadily, every pet leaves looking like a walking cloud. Consistent satisfaction, but the longest waitlist. You believe in taking your time, you would rather make the next client wait 10 more minutes than let this one leave less than perfect. Your security comes from every hair in place and every line smooth and symmetrical. It is not that you cannot go fast, it is that rushing makes you uncomfortable.'},
+SNIP:{c:'SNIP',z:'剪刀之神',e:'Snip God',tz:'走线强迫症',te:'Symmetry Obsessed',
+dz:'追求完美对称，剪一只要看三遍。客户说够了你说再修一下。别人看不出0.5毫米的误差，你看得出来。你的世界里没有差不多，只有还不够好。有时候你觉得自己被剪刀绑架了，但你甘愿。每一刀下去都是你和自己的较量。',
+de:'You pursue perfect symmetry, checking your work three times. Client says enough, you say just one more snip. That 0.5mm error nobody else sees, you see it. There is no close enough in your world, only not good enough yet. Sometimes you feel kidnapped by your own scissors, but you go willingly. Every cut is a contest between you and yourself.'},
+CUDD:{c:'CUDD',z:'抱抱沟通师',e:'Cuddle Whisperer',tz:'宠物心灵捕手',te:'Pet Soul Catcher',
+dz:'安抚能力拉满，攻击性犬猫在你手里都变成小天使。但你经常超时，因为再哄一下嘛。你不是在美容，你是在交朋友，顺便剪了个毛。客户觉得你有魔法，其实你只是真的在乎。你的柔软是你的超能力，也是你加班的理由。',
+de:'Max soothing ability, even aggressive pets become angels in your hands. But you constantly run overtime because just a little more coaxing. You are not grooming, you are making friends, the haircut is just a side quest. Clients think you have magic, but you just genuinely care. Your softness is your superpower, and the reason you always work late.'},
+BLNG:{c:'BLNG',z:'闪亮造型师',e:'Bling Stylist',tz:'宠物时尚教父',te:'Pet Fashion Godfather',
+dz:'蝴蝶结、染毛、指甲套，你的美容台就是时尚工作室。审美永远在线，但有时候宠物不同意。你坚信世界上没有丑宠物，只有不够闪亮的造型。给你一只比熊，你还它一个秀场。你的问题不是技术，是总想多加一个蝴蝶结。',
+de:'Bows, dye, nail caps, your grooming station is a fashion studio. Impeccable taste, but sometimes the pets disagree. You firmly believe there are no ugly pets, only under-styled ones. Give you a Bichon, you will return a runway model. Your problem is not skill, it is that you always want to add just one more bow.'},
+WOLF:{c:'WOLF',z:'野性唤醒者',e:'Wild Resurrector',tz:'自然就是最好的造型',te:'Nature is the Best Style',
+dz:'你最烦过度造型，主张回归自然。客户要泰迪装你建议考虑一下自然款？你相信每只动物都有自己的样子，人为的造型只是人类的自嗨。你修剪的原则是少即是多，干净就好。别人觉得你没创意，你觉得他们不懂狗。',
+de:'You hate over-styling and advocate returning to nature. Client wants a Teddy cut, you suggest how about a natural look. You believe every animal has its own beauty, human styling is just human self-indulgence. Your trimming principle, less is more, clean is enough. Others think you lack creativity, you think they do not understand dogs.'},
+SCRB:{c:'SCRB',z:'搓澡之王',e:'Scrub Lord',tz:'干净就是一切',te:'Clean is Everything',
+dz:'洗澡才是核心工序，剪什么型不重要，重要的是每一寸皮肤都洗到位、吹透彻。你是那种会把耳道清洁和肛门腺都做到位的人，虽然客户从来不知道这些细节。你不是不讲究造型，你是觉得干净的基础上再谈造型。',
+de:'Bathing is the core, the style does not matter as long as every inch of skin is thoroughly washed and dried. You are the one who does ear cleaning and gland expression properly, even though clients never notice these details. It is not that you do not care about styling, you believe cleanliness comes first, styling is secondary.'}
+};
+
+var DIM={
+pacing:{z:'节奏感',e:'Pacing'},perf:{z:'完美度',e:'Perfectionism'},focus:{z:'专注力',e:'Focus'},
+soothe:{z:'安抚力',e:'Soothing'},empathy:{z:'共情度',e:'Empathy'},crisis:{z:'危机处理',e:'Crisis Mgmt'},
+comm:{z:'沟通风格',e:'Communication'},expect:{z:'期望管理',e:'Expectation'},bound:{z:'情绪边界',e:'Boundaries'},
+style:{z:'造型偏好',e:'Style'},creativity:{z:'创意程度',e:'Creativity'},color:{z:'色彩敏感',e:'Color Sense'},
+identity:{z:'职业认同',e:'Identity'},recharge:{z:'疲惫恢复',e:'Recharge'},growth:{z:'成长方向',e:'Growth'}
+};
+
+var UI={
+h1:{z:'你以为你在给宠物做造型，其实是宠物在塑造你的人格。',e:'You think you are styling pets, but they are shaping your personality.'},
+hsub:{z:'MBTI 已经过时，PGBTI 来了。',e:'MBTI is outdated. PGBTI is here.'},
+hbtn:{z:'开始测试',e:'Start Test'},
+ititle:{z:'什么是 PGBTI？',e:'What is PGBTI?'},
+itxt:{z:'PGBTI 是宠物美容师专属人格测试。5 大模型 x 15 维度，20 道题快速出结果。你将面对洗护、修剪、客户沟通、审美和职业态度的真实场景。本测试仅供娱乐，别拿它当诊断、招聘或分手依据。',e:'PGBTI is the personality test for pet groomers. 5 models x 15 dimensions, 20 questions for quick results. You will face real scenarios in bathing, styling, client communication, aesthetics, and career attitude. For entertainment only.'},
+qbk:{z:'返回',e:'Home'},
+bpv:{z:'上一题',e:'Prev'},
+rlbl:{z:'你的主类型',e:'Your Main Type'},
+rdimh:{z:'十五维度评分',e:'15 Dimensions'},
+dcl:{z:'本测试仅供娱乐，别拿它当招聘、考核、相亲、分手或给狗看的依据。',e:'This test is for entertainment only. Do not use it for hiring, evaluation, dating, breaking up, or showing to your dog.'},
+rbtn:{z:'重新测试',e:'Retake Test'},
+mht:{z:'全部完成！',e:'All Done!'},
+mpt:{z:'20 题已答完，可以提交查看结果了！',e:'All 20 questions answered. Ready to see your result?'},
+mbc:{z:'再检查一下',e:'Review'},
+mbk:{z:'查看结果',e:'See Result'},
+nph:{z:'输入你的名字（选填）',e:'Enter your name (optional)'},
+shSave:{z:'保存结果图',e:'Save Result Image'},
+shCopy:{z:'复制到剪贴板',e:'Copy to Clipboard'}
+};
+
+var ans=[];
+var cur=0;
+
+function t(k){return L==='zh'?UI[k].z:UI[k].e}
+
+function setLang(l){
+  L=l;
+  var bZh=document.getElementById('lbZh');
+  var bEn=document.getElementById('lbEn');
+  if(l==='zh'){bZh.className='lb on';bEn.className='lb'}
+  else{bEn.className='lb on';bZh.className='lb'}
+
+  document.getElementById('h1').textContent=t('h1');
+  document.getElementById('hsub').textContent=t('hsub');
+  document.getElementById('hbtn').textContent=t('hbtn');
+  document.getElementById('ititle').textContent=t('ititle');
+  document.getElementById('itxt').textContent=t('itxt');
+  document.getElementById('qbk').textContent=t('qbk');
+  document.getElementById('bpv').textContent=t('bpv');
+  document.getElementById('rlbl').textContent=t('rlbl');
+  document.getElementById('rdimh').textContent=t('rdimh');
+  document.getElementById('dcl').textContent=t('dcl');
+  document.getElementById('rbtn').textContent=t('rbtn');
+  document.getElementById('mht').textContent=t('mht');
+  document.getElementById('mpt').textContent=t('mpt');
+  document.getElementById('mbc').textContent=t('mbc');
+  document.getElementById('mbk').textContent=t('mbk');
+  document.getElementById('uname').placeholder=t('nph');
+  document.getElementById('shSave').textContent=t('shSave');
+  document.getElementById('shCopy').textContent=t('shCopy');
+
+  if(document.getElementById('quiz').className.indexOf('on')>=0){renderQ()}
+  if(document.getElementById('result').className.indexOf('on')>=0 && curResult){renderResult()}
+}
+
+function goHome(){
+  curResult=null;
+  document.getElementById('home').className='pg on';
+  document.getElementById('quiz').className='pg';
+  document.getElementById('result').className='pg';
+  setLang(L);
+  window.scrollTo(0,0);
+}
+
+function startQuiz(){
+  ans=[];
+  for(var i=0;i<Q.length;i++){ans.push(-1)}
+  cur=0;
+  document.getElementById('home').className='pg';
+  document.getElementById('quiz').className='pg on';
+  document.getElementById('result').className='pg';
+  renderQ();
+  window.scrollTo(0,0);
+}
+
+function renderQ(){
+  var q=Q[cur];
+  var isZh=(L==='zh');
+  document.getElementById('qnum').textContent=(isZh?'第 ':'Q ')+(cur+1)+' / '+Q.length+(isZh?' 题':'');
+  document.getElementById('qct').textContent=(cur+1)+' / '+Q.length;
+  document.getElementById('pf').style.width=((cur+1)/Q.length*100)+'%';
+  document.getElementById('qtxt').textContent=isZh?q.z:q.e;
+  var box=document.getElementById('opts');
+  box.innerHTML='';
+  for(var i=0;i<q.o.length;i++){
+    var btn=document.createElement('button');
+    btn.className='ob';
+    if(ans[cur]===i) btn.className='ob sel';
+    btn.textContent=isZh?q.o[i].z:q.o[i].e;
+    btn.setAttribute('data-i',String(i));
+    btn.onclick=function(){
+      var idx=parseInt(this.getAttribute('data-i'));
+      ans[cur]=idx;
+      var all=box.querySelectorAll('.ob');
+      for(var j=0;j<all.length;j++){all[j].className='ob'}
+      this.className='ob sel';
+      document.getElementById('bnx').disabled=false;
+      var self=this;
+      setTimeout(function(){
+        if(cur<Q.length-1){cur++;renderQ()}
+        else{document.getElementById('modal').className='mo sh'}
+      },350);
+    };
+    box.appendChild(btn);
+  }
+  document.getElementById('bnx').disabled=(ans[cur]<0);
+  var nx=document.getElementById('bnx');
+  nx.textContent=(cur===Q.length-1)?(isZh?'提交':'Submit'):(isZh?'下一题':'Next');
+}
+
+function prevQ(){if(cur>0){cur--;renderQ()}}
+function nextQ(){
+  if(ans[cur]<0) return;
+  if(cur<Q.length-1){cur++;renderQ()}
+  else{document.getElementById('modal').className='mo sh'}
+}
+function closeModal(){document.getElementById('modal').className='mo'}
+function submitQuiz(){closeModal();calcResult()}
+
+function calcResult(){
+  var DM={pacing:[0,1],perf:[2],focus:[3],soothe:[4,5],empathy:[6],crisis:[7],comm:[8,9],expect:[10],bound:[11],style:[12],creativity:[13,14],color:[15],identity:[16],recharge:[17],growth:[18,19]};
+  var sc={};var mx={};
+  var keys=Object.keys(DM);
+  for(var k=0;k<keys.length;k++){
+    var d=keys[k];var qs=DM[d];var s=0;var m=0;
+    for(var j=0;j<qs.length;j++){
+      if(ans[qs[j]]>=0){s+=Q[qs[j]].o[ans[qs[j]]].s}
+      m+=4;
+    }
+    sc[d]=s;mx[d]=m;
+  }
+  var nm={};
+  for(var k=0;k<keys.length;k++){
+    var d=keys[k];
+    nm[d]=Math.round((sc[d]-mx[d]*0.25)/(mx[d]*0.75)*100);
+    if(nm[d]<0)nm[d]=0;
+    if(nm[d]>100)nm[d]=100;
+  }
+  var m1=(nm.pacing+nm.perf+nm.focus)/3;
+  var m2=(nm.soothe+nm.empathy+nm.crisis)/3;
+  var m4=(nm.style+nm.creativity+nm.color)/3;
+  var tp;
+  if(m2>=m1&&m2>=m4){tp=T.CUDD}
+  else if(m4>=m1&&m4>=m2){
+    if(nm.creativity>=55||nm.color>=55)tp=T.BLNG;else tp=T.WOLF;
+  }else{
+    if(nm.perf>=60)tp=T.SNIP;
+    else if(nm.pacing<=35)tp=T.SCRB;
+    else tp=T.FLUFF;
+  }
+  var rd;
+  if(tp===T.SNIP)rd=['perf','focus','pacing'];
+  else if(tp===T.CUDD)rd=['soothe','empathy','crisis'];
+  else if(tp===T.BLNG)rd=['style','creativity','color'];
+  else if(tp===T.WOLF)rd=['style','creativity'];
+  else if(tp===T.SCRB)rd=['pacing','perf','focus'];
+  else rd=['pacing','perf','soothe'];
+  var avg=0;
+  for(var i=0;i<rd.length;i++){avg+=nm[rd[i]]}
+  avg=avg/rd.length;
+  var match=Math.round(avg*0.85+12);
+  if(match<60)match=60;if(match>98)match=98;
+
+  curResult={tp:tp,match:match,nm:nm,keys:keys};
+  renderResult();
+  document.getElementById('home').className='pg';
+  document.getElementById('quiz').className='pg';
+  document.getElementById('result').className='pg on';
+  window.scrollTo(0,0);
+}
+
+function renderResult(){
+  if(!curResult)return;
+  var tp=curResult.tp;var match=curResult.match;var nm=curResult.nm;var keys=curResult.keys;
+  var isZh=(L==='zh');
+  document.getElementById('rcode').textContent=tp.c;
+  document.getElementById('rname').textContent=isZh?tp.z:tp.e;
+  document.getElementById('rtag').textContent=isZh?tp.tz:tp.te;
+  document.getElementById('rmatch').textContent=match+'%';
+  document.getElementById('rdesc').textContent=isZh?tp.dz:tp.de;
+
+  var grid=document.getElementById('dgrid');
+  grid.innerHTML='';
+  var clrs=['var(--p)','var(--s)','var(--a)','#E17055','#6C5CE7'];
+  for(var i=0;i<keys.length;i++){
+    var d=keys[i];var v=nm[d];
+    var label=isZh?DIM[d].z:DIM[d].e;
+    var c=clrs[Math.floor(i/3)];
+    var div=document.createElement('div');div.className='di';
+    var lbl=document.createElement('div');lbl.className='dl';lbl.textContent=label;
+    var bar=document.createElement('div');bar.className='db';
+    var fill=document.createElement('div');fill.className='df';fill.style.width=v+'%';fill.style.background=c;
+    bar.appendChild(fill);
+    var val=document.createElement('div');val.className='dv';val.textContent=v+'%';
+    div.appendChild(lbl);div.appendChild(bar);div.appendChild(val);
+    grid.appendChild(div);
+  }
+}
+
+/* ====== SCREENSHOT ====== */
+function buildCard(){
+  if(!curResult) return;
+  var tp=curResult.tp;var match=curResult.match;var nm=curResult.nm;var keys=curResult.keys;
+  var isZh=(L==='zh');
+  var uname=document.getElementById('uname').value.trim();
+
+  var card=document.getElementById('scard');
+
+  // build top dims html
+  var topDims=isZh?['pacing','soothe','comm','style','identity']:['pacing','soothe','comm','style','identity'];
+  var dimsHtml='';
+  for(var i=0;i<keys.length;i++){
+    var d=keys[i];var v=nm[d];
+    var label=isZh?DIM[d].z:DIM[d].e;
+    dimsHtml+='<div class="sc-dim"><div class="sc-dl">'+label+'</div><div class="sc-dv">'+v+'%</div></div>';
+  }
+
+  var nameHtml='';
+  if(uname){
+    nameHtml='<div class="sc-usr">'+(isZh?'<span>'+uname+'</span> 的 PGBTI':'<span>'+uname+'</span>\'s PGBTI')+'</div>';
+  }else{
+    nameHtml='<div class="sc-usr">'+(isZh?'我的 PGBTI':'My PGBTI')+'</div>';
+  }
+
+  card.innerHTML=
+    '<div class="sc-logo">PGBTI</div>'+
+    '<div class="sc-type">'+
+      '<div class="sc-code">'+tp.c+'</div>'+
+      '<div class="sc-name">'+(isZh?tp.z:tp.e)+'</div>'+
+      '<div class="sc-tag">'+(isZh?tp.tz:tp.te)+'</div>'+
+      '<div class="sc-match">'+match+'%</div>'+
+      '<div class="sc-match-label">'+(isZh?'匹配度':'Match')+'</div>'+
+    '</div>'+
+    '<div class="sc-desc">'+(isZh?tp.dz:tp.de)+'</div>'+
+    '<div class="sc-dims">'+dimsHtml+'</div>'+
+    '<div class="sc-footer">'+
+      nameHtml+
+      '<div class="sc-qr">'+(isZh?'扫码测你的宠物美容师人格':'Scan to test your PGBTI')+'<br>pgbti.one</div>'+
+    '</div>';
+
+  card.style.display='block';
+}
+
+function hideCard(){
+  document.getElementById('scard').style.display='none';
+}
+
+function saveImage(){
+  buildCard();
+  var card=document.getElementById('scard');
+  html2canvas(card,{scale:2,backgroundColor:null,useCORS:true}).then(function(canvas){
+    hideCard();
+    var link=document.createElement('a');
+    link.download='PGBTI_'+curResult.tp.c+'.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+  }).catch(function(){hideCard();alert('Save failed, please try again')});
+}
+
+function copyImage(){
+  buildCard();
+  var card=document.getElementById('scard');
+  html2canvas(card,{scale:2,backgroundColor:null,useCORS:true}).then(function(canvas){
+    hideCard();
+    canvas.toBlob(function(blob){
+      if(navigator.clipboard && navigator.clipboard.write){
+        var item=new ClipboardItem({'image/png':blob});
+        navigator.clipboard.write([item]).then(function(){
+          alert(L==='zh'?'已复制到剪贴板！':'Copied to clipboard!');
+        }).catch(function(){
+          alert(L==='zh'?'复制失败，请尝试保存图片':'Copy failed, try saving instead');
+        });
+      }else{
+        alert(L==='zh'?'浏览器不支持复制图片，请使用保存功能':'Browser does not support image copy, please save instead');
+      }
+    },'image/png');
+  }).catch(function(){hideCard();alert('Copy failed, please try again')});
+}
+
+// init
+setLang('zh');
+</script>
+</body>
+</html>
